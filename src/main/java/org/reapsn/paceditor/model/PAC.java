@@ -1,6 +1,6 @@
 package org.reapsn.paceditor.model;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Reaps on 2017/6/14.
@@ -9,7 +9,7 @@ public class PAC {
 
 	private String name = "";
 	private String proxy = "";
-	private LinkedList<String> rules = new LinkedList<>();
+	private LinkedHashSet<String> rules = new LinkedHashSet<String>();
 
 	public String getName() {
 		return name;
@@ -27,11 +27,11 @@ public class PAC {
 		this.proxy = proxy;
 	}
 
-	public LinkedList<String> getRules() {
+	public LinkedHashSet<String> getRules() {
 		return rules;
 	}
 
-	public void setRules(LinkedList<String> rules) {
+	public void setRules(LinkedHashSet<String> rules) {
 		this.rules = rules;
 	}
 }
