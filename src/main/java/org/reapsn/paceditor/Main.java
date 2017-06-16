@@ -12,18 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		LinkedHashSet<PAC> pacs = new LinkedHashSet<PAC>();
-
-		PAC pac = new PAC();
-		pac.setName("gfwlist");
-		pac.setProxy("PROXY 127.0.0.1:1080;");
-		pac.getRules().add("google.com");
-
-		pacs.add(pac);
-
-		MainFrame mainFrame = new MainFrame(pacs);
-
-//		mainFrame.setPacs(pacs);
+		MainFrame mainFrame = new MainFrame();
 
 		mainFrame.setVisible(true);
 

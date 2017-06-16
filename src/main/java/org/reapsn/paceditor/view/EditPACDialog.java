@@ -46,7 +46,7 @@ public class EditPACDialog extends JDialog {
 			}
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-		this.setSize(600, 300);
+		this.setSize(600, 450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 
@@ -121,7 +121,6 @@ public class EditPACDialog extends JDialog {
 
 		textField_rule.addKeyListener(new MyKeyAdapter());
 
-
 		// 同时移除上一个的 KeyListener
 		Component[] brothers = owner.getComponents();
 		if (brothers != null && brothers.length > 0 && brothers[brothers.length - 1] instanceof JTextField) {
@@ -136,6 +135,7 @@ public class EditPACDialog extends JDialog {
 			}
 		}
 
+		// 调整 owner 的高度
 		Dimension size = owner.getPreferredSize();
 		size.setSize(size.width, size.height + 38 + 5);
 		owner.setPreferredSize(size);
@@ -150,6 +150,8 @@ public class EditPACDialog extends JDialog {
 	}
 
 	public void setPac(PAC pac) {
+
+		this.setTitle(pac.getName());
 
 		// 初始宽度和高度
 		this.panel_rules.setPreferredSize(new Dimension(576, 0));
@@ -171,12 +173,7 @@ public class EditPACDialog extends JDialog {
 		}
 		addTextFieldForRule(this.panel_rules, "");
 
-		this.panel_rules.repaint();
-
-		// 初始垂直滚动条的位置到最顶端
-		JScrollPane scrollPane = (JScrollPane) this.panel_rules.getParent().getParent();
-		JScrollBar vertical = scrollPane.getVerticalScrollBar();
-		vertical.setValue(0);
+		this.panel_rules.revalidate();
 
 		this.pac = pac;
 
