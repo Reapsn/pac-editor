@@ -56,28 +56,42 @@ public class ListPACFormWrapper {
 			}
 		});
 
-		setPacs(new LinkedHashSet<PAC>());
+		try {
+			File pacFile = new File(String.format("%s/pac/pac.pac", FileUtils.getUserDirectoryPath()));
+			if (pacFile.exists()) {
+				String pacString = FileUtils.readFileToString(pacFile, "UTF-8");
+				LinkedHashSet<PAC> temp_pacs = PACBuilder.decodeFromPAC(pacString);
+				setPacs(temp_pacs);
+			} else {
+				setPacs(new LinkedHashSet<PAC>());
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+
+			setPacs(new LinkedHashSet<PAC>());
+		}
+
 	}
 
 	private void onImportPAC() {
 
 		try {
 
-			JFileChooser fileChooser = new JFileChooser(FileUtils.getUserDirectoryPath());
+			JFileChooser fileChooser = new JFileChooser(FileUtils.getUserDirectoryPath() + "/pac");
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("PAC文件(*.pac)", "pac");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("PAC文件(*.pac,*.txt)", "pac", "txt");
 			fileChooser.setFileFilter(filter);
 
-			fileChooser.setSelectedFile(new File("pac.pac"));
+			fileChooser.setSelectedFile(new File("pac/pac.pac"));
 
 			if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(getForm())) {
 
 				File selectedFile = fileChooser.getSelectedFile();
 
 				if (selectedFile != null) {
-					String pac = FileUtils.readFileToString(selectedFile, "UTF-8");
-					LinkedHashSet<PAC> temp_pacs = PACBuilder.decodeFromPAC(pac);
+					String pacString = FileUtils.readFileToString(selectedFile, "UTF-8");
+					LinkedHashSet<PAC> temp_pacs = PACBuilder.decodeFromPAC(pacString);
 
 					LinkedHashSet<PAC> temp_pacs_2 = new LinkedHashSet<PAC>();
 					temp_pacs_2.addAll(pacs);
@@ -97,10 +111,10 @@ public class ListPACFormWrapper {
 	private void onExportPAC() {
 		try {
 
-			JFileChooser fileChooser = new JFileChooser(FileUtils.getUserDirectoryPath());
+			JFileChooser fileChooser = new JFileChooser(FileUtils.getUserDirectoryPath() + "/pac");
 			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("PAC文件(*.pac)", "pac");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("PAC文件(*.pac,*.txt)", "pac", "txt");
 			fileChooser.setFileFilter(filter);
 
 			fileChooser.setSelectedFile(new File("pac.pac"));
